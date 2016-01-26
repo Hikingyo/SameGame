@@ -117,10 +117,19 @@ final class AfficheurGrille extends JComponent {
                         case_largeur, case_hauteur);
             }
         }
+        // Si la partie est terminer
+        if (fin_partie()) {
+            // On affiche un message
+            Font ScoreFont = new Font("Courier New", Font.BOLD, 28);
+            g.setColor(Color.orange);
+            g.setFont(ScoreFont);
+            String messageFinPartie = "Game Over !!";
+            g.drawString(messageFinPartie, 110, 240);
+        }
     }
 
     /**
-     * REcherche des case contigue de même couleur. Si plusieurs cases sont
+     * Recherche des case contigue de même couleur. Si plusieurs cases sont
      * concernées, on les met en noir.
      *
      * @param c numéro de colonne de la case cliquée
@@ -163,17 +172,19 @@ final class AfficheurGrille extends JComponent {
                     // Changement d'état de la case visitée
                     etat[cv][lv] = 0;
                     // ajout au nombre de cases supprimées
-                    nbcs ++;
+                    nbcs++;
                 }
             }
         }
         // Changement d'état de la case choisie
         if (supprimer) {
             etat[c][l] = 0;
-            nbcs ++;
+            nbcs++;
         }
         // Gestion du score
         score += nbcs * nbcs;
+        // Gestion fin partie
+        fin_partie();
     }
 
     private void tassement() {
@@ -211,5 +222,26 @@ final class AfficheurGrille extends JComponent {
             int[] c_tmp = new int[nbl];
             etat[cv] = c_tmp;
         }
+    }
+
+    // Si plus de coup jouable, affichage message et score
+    private boolean fin_partie() {
+        // Parcour de la grille
+        for (int c = 0; c < nbc; c++) {
+            for (int l = 0; l < nbl; l++) {
+                // Si la case n'est pas noir
+                if (etat[c][l] != 0) {
+                    // Si la case voisine est dans la grille
+                    if (c + 1 < nbc && l + 1 < nbl) {
+                        // Si la case à gauche ou endessous est de même couleur
+                        if (etat[c][l] == etat[c + 1][l] || etat[c][l] == etat[c][l + 1]) {
+                            // La partie continue
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
