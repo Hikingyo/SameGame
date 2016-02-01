@@ -111,8 +111,6 @@ fin de la partie
 ### JeuGrille
 `JeuGrille` est la classe principale du projet. Elle va instancier la classe Jeu.
 
-#### Méthodes
-
 Méthodes              | Description
 --------------------- | --------------------------------------------------------------
 `main(String[] args)` | C'est la fonction principale, c'est elle qui va lancer le jeu.
@@ -120,13 +118,9 @@ Méthodes              | Description
 ### Jeu
 `Jeu` gère l'affichage de la fenètre graphique.
 
-#### Champs
-
 Attributs        | Description
 ---------------- | -----------
 `JFrame fenetre` |
-
-#### Méthodes
 
 Méthodes | Description
 -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -135,20 +129,14 @@ Méthodes | Description
 ### AfficheurGrille
 `AfficheurGrille` gère le fonctionnement du jeu.
 
-#### Algorithme
 ### Position
 `Position` est la classe représentant la position d'une case. Elle possède les caractéristiques suivantes :
 - Une position en X;
 - Une position en Y;
-
-#### Champs
-
-Attributs     | Description
-------------- | -------------
-`int colonne` | Position en X
-`int ligne`   | Position en Y
-
-#### Méthodes
+- Attributs     | Description
+- ------------- | -------------
+- `int colonne` | Position en X
+- `int ligne`   | Position en Y
 
 Méthodes                           | Description
 ---------------------------------- | -------------------------------
