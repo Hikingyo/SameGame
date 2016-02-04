@@ -13,23 +13,62 @@ Le programme est composé de 4 classes :
 - La classe `AfficheurGrille` qui gère le fonctionnement du jeu.
 - La classe `Position` qui sert à manipuler la position d'une case;
 
-## Structure de données
-Le fonctionnement du jeu est géré à travers un tableau à deux dimensions `etat[][]` stockant l'état (et donc la couleur) d'une case. La première dimension de ce tableau représente la coordonnée en X de la case, et la deuxième dimension, la coordonnée en Y sachant que l'origine de la grille correspond au coin supérieur gauche de la grille.
+### JeuGrille
+`JeuGrille` est la classe principale du projet. Elle va instancier la classe Jeu.
+
+Méthodes              | Description
+--------------------- | --------------------------------------------------------------
+`main(String[] args)` | C'est la fonction principale, c'est elle qui va lancer le jeu.
+
+### Jeu
+`Jeu` gère l'affichage de la fenètre graphique.
+
+Attributs        | Description
+---------------- | -----------
+`JFrame fenetre` |
+
+Méthodes | Description
+-------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+`Jeu()`  | Constructeur de classe. Il définit les propriétés de la fenetre graphique : dimensions, taille de la grille de cellules, ainsi la création et le positionnement des boutons.
+
+### AfficheurGrille
+`AfficheurGrille` gère le fonctionnement du jeu.
+
+Attributs              | Description
+---------------------- | ----------------------------------------------------------------------------
+`int nbl`              | Nombre de ligne
+`int nbc`              | Nombre de colonne
+`int[][] etat`         | Tableau à deux dimensions stockant l'état (la couleur) de chaque case_a_voir
+`int coups`            | Nombre de coups effectué par le joueur
+`int score`            | Score du joueur
+`static final Color[]` | Tableau contenant l'ensemble des couleurs qui peuvent prendre les cases.
+`final Font police`    | Police d'écriture
+`case_largeur`         | Largeur d'une case
+`case_hauteur`         | Hauteur d'une case
+`grille_gauche`        | Marge gauche
+`grille_haut`          | Marge haut
+`case_gauche`          | Décalage de la case à largeur
+`case_haut`            | Décalage de la case en hauteur
+
+Méthodes                                        | Description
+----------------------------------------------- | ----------------------------------------------------------------------------------------------------
+`AfficheurGrille(int nbColonnes, int nbLignes)` | Constructeur de la classe
+`nouvellePartie()`                              | Remplissage de la grille de façon aléatoire
+`clic_coordonnees(int x, int y)`                | Conversion des coordonnées graphiques en colonne/ligne.
+`clic_case(int c, int l)`                       | Action d'un clic sur une case.
+`paintComponent(Graphics g)`                    | Affichage des composants de dessin.
+`recherche_et_destruction(int c, int l)`        | Recherche des case contigue de même couleur. Si plusieurs cases sont concernées, on les met en noir.
+`tassement()`                                   | Tassement vertical des cases et horizontal des colonnes.
+`fin_partie()`                                  | Gestion de la fin de partie.
+
+#### Structure de données
+Le fonctionnement du jeu est géré à travers un tableau à deux dimensions `etat[][]` stockant l'état (et donc la couleur) d'une case. La première dimension de ce tableau représente la coordonnée en X de la case, et la deuxième dimension, la coordonnée en Y, sachant que l'origine de la grille correspond au coin supérieur gauche de la grille.
 
 On dispose également d'une liste `voisins` regroupant les cases voisines d'une case donnée et d'une autre liste `case_a_voir` regroupant les cases à supprimer.
 
 Le booléen `supprimer` sert de flag et permet d'empêcher que les cases cliquées par le joueur n'ayant pas de voisins soient supprimés.
 
-## Découpage du code
-- Remplissage de la grille de façon aléatoire
-- Conversion des coordonnées graphiques en colonne/ligne.
-- Action d'un clic sur une case.
-- Affichage des composants de dessin.
-- Recherche des case contigue de même couleur. Si plusieurs cases sont concernées, on les met en noir.
-- Tassement vertical des cases et horizontal des colonnes.
-- Gestion de la fin de partie.
-
-## Algorithmique
+#### Algorithmique
 Remplissage de la grille de façon aléatoire.
 
 ```
@@ -43,8 +82,8 @@ Faire
 Conversion des coordonnées graphiques en colonne/ligne.
 
 ```
-Entier NumeroColonne <- (x - TailleGrilleVerticale) / TailleCase;
-Entier NumeroLigne <- (y - TailleGrilleHorizontale) / TailleCase;
+Entier NumeroColonne <- (x - MargeHaut) / TailleCase;
+Entier NumeroLigne <- (y - MargeGauche) / TailleCase;
 ```
 
 Action d'un clic sur une case.
@@ -68,7 +107,7 @@ Pour i de 0 à NombreColonne - 1 avec un pas de 1
 Faire
   Pour j de 0 à NombreLigne - 1 avec un pas de 1
   Faire
-  Colorier case
+    Colorier case
 
 // Fin de partie
 
@@ -86,6 +125,23 @@ Recherche des case contigues de même couleur. Si plusieurs cases sont concerné
 Tassement vertical des cases et horizontal des colonnes.
 
 ```
+// Tassement vertical
+Pour c de 0 à NombreColonne
+Faire
+  Entier Curseur <- NombreLigne - 1
+
+  Pour l de NombreLigne - 1 à 0
+  Faire
+    Si etat[c][l] est différent de 0
+    Alors
+      etat[c][curseur] <- etat[c][l]
+      curseur <- curseur - 1
+
+  Pour cl de curseur à 0
+  Faire
+    etat[c][cl] <- 0
+
+// Tassement horizontal
 à faire
 ```
 
@@ -107,36 +163,15 @@ Faire
 fin de la partie
 ```
 
-## Documentation
-### JeuGrille
-`JeuGrille` est la classe principale du projet. Elle va instancier la classe Jeu.
-
-Méthodes              | Description
---------------------- | --------------------------------------------------------------
-`main(String[] args)` | C'est la fonction principale, c'est elle qui va lancer le jeu.
-
-### Jeu
-`Jeu` gère l'affichage de la fenètre graphique.
-
-Attributs        | Description
----------------- | -----------
-`JFrame fenetre` |
-
-Méthodes | Description
--------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-`Jeu()`  | Constructeur de classe. Il définit les propriétés de la fenetre graphique : dimensions, taille de la grille de cellules, ainsi la création et le positionnement des boutons.
-
-### AfficheurGrille
-`AfficheurGrille` gère le fonctionnement du jeu.
-
 ### Position
 `Position` est la classe représentant la position d'une case. Elle possède les caractéristiques suivantes :
 - Une position en X;
 - Une position en Y;
-- Attributs     | Description
-- ------------- | -------------
-- `int colonne` | Position en X
-- `int ligne`   | Position en Y
+
+Attributs     | Description
+------------- | -------------
+`int colonne` | Position en X
+`int ligne`   | Position en Y
 
 Méthodes                           | Description
 ---------------------------------- | -------------------------------
