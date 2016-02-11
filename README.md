@@ -107,19 +107,13 @@ Pour i de 0 à NombreColonne - 1 avec un pas de 1
 Faire
   Pour j de 0 à NombreLigne - 1 avec un pas de 1
   Faire
-    Colorier case
+    Colorier case[i][j]
 
 // Fin de partie
 
 Si flag est à false
 Alors
   Affichage message de fin de partie
-```
-
-Recherche des case contigues de même couleur. Si plusieurs cases sont concernées, on les met en noir.
-
-```
-à faire
 ```
 
 Tassement vertical des cases et horizontal des colonnes.
@@ -142,7 +136,16 @@ Faire
     etat[c][cl] <- 0
 
 // Tassement horizontal
-à faire
+Entier curseur
+Pour c de 0 à NombreColonne
+Faire
+  Si colonne n'est pas vide
+  Alors
+    On copie à l'endroit du curseur
+
+Pour chaque colonne vide
+Faire
+  Remplir la colonne de case vide
 ```
 
 Gestion de la fin de partie.
@@ -156,7 +159,7 @@ Faire
     Alors
       Si la case voisine est dans la grille
       Alors
-        Si la case à gauche ou endessous est de même couleur
+        Si la case à gauche ou en dessous est de même couleur
         Alors
           La partie continue
 
